@@ -71,7 +71,7 @@ const updateAddWithSqlIfFirstOfSeptember = async (
   }
 };
 
-const getAveragePriceOfParisAds = async (
+const getAverageWithSqlPriceOfParisAds = async (
   req: Request,
   res: Response
 ): Promise<any> => {
@@ -91,15 +91,15 @@ const getAveragePriceOfParisAds = async (
 
 const postNewAdWithSql = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { title, description, owner, price, picture, location } = req.body;
+    const { title, description, owner, price, picture, location, categoryId } = req.body;
 
     const query =
-      "INSERT INTO ad (title, description, owner, price, picture, location, createdAt) VALUES (?, ?, ?, ?, ?, ?,?)";
+      "INSERT INTO ad (title, description, owner, price, picture, location, createdAt, categoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     const createdAt = new Date().toISOString();
 
     db.run(
       query,
-      [title, description, owner, price, picture, location, createdAt],
+      [title, description, owner, price, picture, location, createdAt, categoryId],
       (err) => {
         if (err) {
           return res.status(500).send(err.message);
@@ -112,7 +112,7 @@ const postNewAdWithSql = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const getAveragePriceOfAdsByLocation = async (
+const getAveragePriceOfAdsByLocationWithSql = async (
   req: Request,
   res: Response
 ): Promise<any> => {
@@ -154,8 +154,8 @@ export {
   getAllAdsWithSqlFromBordeaux,
   deleteAdWithSqlIfPriceMoreThan40,
   updateAddWithSqlIfFirstOfSeptember,
-  getAveragePriceOfParisAds,
+  getAverageWithSqlPriceOfParisAds,
   postNewAdWithSql,
-  getAveragePriceOfAdsByLocation,
+  getAveragePriceOfAdsByLocationWithSql,
   deleteAdWithSqlWithPriceInParameter
 };

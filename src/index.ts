@@ -3,6 +3,8 @@ import router from "./routes/index";
 import db from "./sql/configSql";
 import fs from "fs";
 import path from "path";
+import "reflect-metadata";
+import dataSource from "./sql/dataSource";
 
 const port = process.env.PORT || 3000;
 
@@ -22,6 +24,15 @@ db.exec(queries, (err) => {
     console.log("Database initialized successfully.");
   }
 });
+
+dataSource
+  .initialize()
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database", error);
+  });
 
 // Log all requests
 app.use((req, res, next) => {
