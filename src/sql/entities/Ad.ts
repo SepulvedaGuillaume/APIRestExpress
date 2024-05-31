@@ -52,7 +52,6 @@ class Ad extends BaseEntity {
   categoryId: number;
 
   @ManyToOne(() => Category, (category) => category.id) 
-  @JoinColumn({ name: "categoryId" })
   category: Category;
 }
 

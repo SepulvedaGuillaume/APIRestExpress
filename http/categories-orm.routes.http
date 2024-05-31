@@ -1,0 +1,29 @@
+
+GET http://localhost:3000/categories-orm/vetement
+
+###
+
+GET http://localhost:3000/categories-orm/multiple/autre,voiture
+
+###
+
+GET http://localhost:3000/categories-orm/avg/autre
+
+###
+
+GET http://localhost:3000/categories-orm/search/v
+
+###
+
+POST http://localhost:3000/categories-orm
+Content-Type: application/json
+
+{
+  "title": "Test category",
+  "description": "Description test 1",
+  "owner": "Guillaume",
+  "price": 100,
+  "picture": "http://www.google.com",
+  "location": "Location 1",
+  "category": "nouveau2"
+}
