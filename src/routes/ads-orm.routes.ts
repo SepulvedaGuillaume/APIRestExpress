@@ -8,6 +8,8 @@ import {
   postNewAdWithOrm,
   getAveragePriceOfAdsByLocationWithOrm,
   deleteAdWithOrmWithPriceInParameter,
+  updateAd,
+  getAdsByTags,
 } from "../controllers/ads-orm.controller";
 
 const router = express.Router();
@@ -20,5 +22,7 @@ router.get("/avg-paris", getAverageWithOrmPriceOfParisAds);
 router.post("/", postNewAdWithOrm);
 router.get("/avg-location", getAveragePriceOfAdsByLocationWithOrm);
 router.delete("/:price", deleteAdWithOrmWithPriceInParameter);
+router.put("/:id", updateAd);
+router.get("/tags/:tags", getAdsByTags);
 
 export default router;

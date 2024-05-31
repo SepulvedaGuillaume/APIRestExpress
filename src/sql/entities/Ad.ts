@@ -1,6 +1,16 @@
 import { Length } from "class-validator";
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
 import Category from "./Category";
+import Tag from "./Tag";
 
 @Entity()
 class Ad extends BaseEntity {
@@ -51,8 +61,13 @@ class Ad extends BaseEntity {
   @Column()
   categoryId: number;
 
-  @ManyToOne(() => Category, (category) => category.id) 
+  @ManyToOne(() => Category, (category) => category.ads)
+  @JoinColumn({ name: "categoryId" })
   category: Category;
+
+  @ManyToMany(() => Tag, (tag) => tag.ads, { onDelete: "CASCADE" })
+  @JoinTable()
+  tags: Tag[];
 }
 
 export default Ad;

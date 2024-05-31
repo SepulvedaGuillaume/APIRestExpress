@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Ad from "../sql/entities/Ad";
-import { MoreThan } from "typeorm";
+import { MoreThan, In } from "typeorm";
+import Tag from "../sql/entities/Tag";
 
 const getAllAdsWithOrm = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -86,8 +87,16 @@ const getAverageWithOrmPriceOfParisAds = async (
 
 const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { title, description, owner, price, picture, location, categoryId } =
-      req.body;
+    const {
+      title,
+      description,
+      owner,
+      price,
+      picture,
+      location,
+      categoryId,
+      tags,
+    } = req.body;
 
     if (!title || !owner || !price || !location || !categoryId) {
       return res.status(400).send("Missing required fields");
@@ -103,12 +112,31 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
     ad.location = location;
     ad.createdAt = new Date();
     ad.categoryId = categoryId;
+    ad.tags = [];
 
-    const success = await ad.save();
+    await ad.save();
 
-    if (success) {
-      return res.status(201).send(ad);
+    if (tags && tags.length > 0) {
+      for (const tagName of tags) {
+        // Vérifiez si le tag existe déjà
+        let tag = await Tag.findOne({ where: { name: tagName } });
+
+        // Si le tag n'existe pas, créez-le
+        if (!tag) {
+          tag = new Tag();
+          tag.name = tagName;
+          await tag.save();
+        }
+
+        // Ajoutez le tag à l'annonce
+        ad.tags.push(tag);
+      }
+
+      // Enregistrez l'annonce mise à jour avec les tags
+      await ad.save();
     }
+
+    return res.status(201).send(ad);
   } catch (error) {
     console.log(error);
 
@@ -157,6 +185,84 @@ const deleteAdWithOrmWithPriceInParameter = async (
   }
 };
 
+const updateAd = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+    const { title, description, price, picture, location, categoryId, tags } =
+      req.body;
+
+    if (!title || !price || !location || !categoryId) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const ad = await Ad.findOne({ where: { id: parseInt(id) } });
+
+    if (!ad) {
+      return res.status(404).send("Ad not found");
+    }
+
+    ad.title = title;
+    ad.description = description;
+    ad.price = price;
+    ad.picture = picture;
+    ad.location = location;
+    ad.categoryId = categoryId;
+
+    await ad.save();
+
+    if (tags && tags.length > 0) {
+      ad.tags = [];
+
+      for (const tagName of tags) {
+        // Vérifiez si le tag existe déjà
+        let tag = await Tag.findOne({ where: { name: tagName } });
+
+        // Si le tag n'existe pas, créez-le
+        if (!tag) {
+          tag = new Tag();
+          tag.name = tagName;
+          await tag.save();
+        }
+
+        // Ajoutez le tag à l'annonce
+        ad.tags.push(tag);
+      }
+
+      // Enregistrez l'annonce mise à jour avec les tags
+      await ad.save();
+    }
+
+    return res.status(200).send(ad);
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+};
+
+const getAdsByTags = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { tags } = req.params;
+
+    const tagsSplit = tags.split(",");
+
+    if (!tags || tags.length === 0) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const ads = await Ad.find({
+      relations: ["tags"],
+      where: {
+        tags: {
+          name: In(tagsSplit),
+        }
+      },
+    });
+
+    return res.status(200).send(ads);
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+};
+
 export {
   getAllAdsWithOrm,
   getAllAdsWithOrmFromBordeaux,
@@ -166,4 +272,6 @@ export {
   postNewAdWithOrm,
   getAveragePriceOfAdsByLocationWithOrm,
   deleteAdWithOrmWithPriceInParameter,
+  updateAd,
+  getAdsByTags,
 };

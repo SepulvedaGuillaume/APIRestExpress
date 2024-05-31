@@ -123,13 +123,10 @@ const postAdWithCategoryOrm = async (
 
       // if the category doesn't exist, create it
       if (!categoryFound) {
-        categoryFound = await transactionalEntityManager.save(
-          Category,
-          {
-            id: Math.floor(Math.random() * 1000),
-            name: category,
-          }
-        );
+        categoryFound = await transactionalEntityManager.save(Category, {
+          id: Math.floor(Math.random() * 1000),
+          name: category,
+        });
       }
 
       // insert the ad
@@ -142,6 +139,7 @@ const postAdWithCategoryOrm = async (
       ad.location = location;
       ad.createdAt = new Date();
       ad.categoryId = categoryFound.id;
+      ad.tags = [];
 
       await transactionalEntityManager.save(Ad, ad);
 
@@ -149,7 +147,7 @@ const postAdWithCategoryOrm = async (
     });
   } catch (error) {
     console.log(error);
-    
+
     return res.status(500).send("An error occurred");
   }
 };
