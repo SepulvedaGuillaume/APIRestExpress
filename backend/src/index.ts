@@ -6,7 +6,7 @@ import path from "path";
 import "reflect-metadata";
 import dataSource from "./sql/dataSource";
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const app = express();
 
