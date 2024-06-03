@@ -1,5 +1,5 @@
 import Category, { CategoryProps } from "./Category";
-import styles from "../styles/Header.module.css";
+import styles from "../styles/Header.module.sass";
 
 export default function Header() {
   const categories: CategoryProps[] = [

@@ -1,5 +1,5 @@
 import AdCard, { AdCardProps } from "./AdCard";
-import styles from "../styles/RecentAds.module.css";
+import styles from "../styles/RecentAds.module.sass";
 
 export default function RecentAds() {
   const ads: AdCardProps[] = [
@@ -40,11 +40,11 @@ export default function RecentAds() {
       link: "/ads/porte-magazine",
     },
   ];
-  
+
   return (
-    <main className={styles['main-content']}>
+    <main className={styles["main-content"]}>
       <h2>Annonces récentes</h2>
-      <section className={styles['recent-ads']}>
+      <section className={styles["recent-ads"]}>
         {ads.map((ad, index) => (
           <AdCard key={index} {...ad} />
         ))}

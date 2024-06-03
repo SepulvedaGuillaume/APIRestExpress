@@ -1,4 +1,4 @@
-import styles from "../styles/AdCard.module.css";
+import styles from "../styles/AdCard.module.sass";
 
 export type AdCardProps = {
   title: string;
