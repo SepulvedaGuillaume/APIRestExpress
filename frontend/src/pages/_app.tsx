@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "@/styles/globals.sass";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Layout from "@/pages/layout";
