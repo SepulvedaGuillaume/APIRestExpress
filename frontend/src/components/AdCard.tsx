@@ -1,6 +1,6 @@
 import styles from "../styles/AdCard.module.sass";
 
-export type AdCardProps = {
+export interface AdCardProps {
   title: string;
   imgUrl: string;
   price: number;

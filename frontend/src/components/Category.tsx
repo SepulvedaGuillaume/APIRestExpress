@@ -1,6 +1,6 @@
 import styles from "../styles/Category.module.sass";
 
-export type CategoryProps = {
+export interface CategoryProps {
   title: string;
   link: string;
 };
