@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-import Layout from "@/pages/Layout";
+import Layout from "@/pages/layout";
 
 function App({ Component, pageProps }: AppProps) {
   return (
