@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "../styles/AdCard.module.sass";
 
 export interface AdCardProps {
@@ -10,13 +11,16 @@ export interface AdCardProps {
 export default function AdCard({ title, imgUrl, price, link }: AdCardProps) {
   return (
     <div className={styles["ad-card-container"]}>
-      <a className={styles["ad-card-link"]} href={link}>
+      <Link href={{
+        pathname: link,
+        query: { title, imgUrl, price }
+      }} className={styles["ad-card-link"]}>
         <img className={styles["ad-card-image"]} src={imgUrl} />
         <div className={styles["ad-card-text"]}>
           <div className={styles["ad-card-title"]}>{title}</div>
           <div className={styles["ad-card-price"]}>{price} €</div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

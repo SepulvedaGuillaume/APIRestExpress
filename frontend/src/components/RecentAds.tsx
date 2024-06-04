@@ -42,13 +42,13 @@ export default function RecentAds() {
   ];
 
   return (
-    <main className={styles["main-content"]}>
+    <>
       <h2>Annonces récentes</h2>
       <section className={styles["recent-ads"]}>
         {ads.map((ad, index) => (
           <AdCard key={index} {...ad} />
         ))}
       </section>
-    </main>
+    </>
   );
 }
