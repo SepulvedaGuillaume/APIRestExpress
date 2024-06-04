@@ -1,5 +1,5 @@
 import AdCard, { AdCardProps } from "./AdCard";
-import styles from "../styles/RecentAds.module.sass";
+import styles from "@/styles/RecentAds.module.sass";
 
 export default function RecentAds() {
   const ads: AdCardProps[] = [

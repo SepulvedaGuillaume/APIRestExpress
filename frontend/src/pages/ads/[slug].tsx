@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import AdDetails from "@/components/AdDetails";
+import GoBackButton from "@/components/GoBackButton";
+import styles from "@/styles/AdDetailsPage.module.sass";
 
 export interface AdDetailProps {
   title: string;
@@ -19,9 +21,9 @@ export default function AdDetailsPage() {
   }
 
   return (
-    <>
-      <button onClick={() => router.back()}>Go back</button>
+    <div className={styles["ad-details-page-container"]}>
+      <GoBackButton />
       <AdDetails title={title} imgUrl={imgUrl} price={price} />
-    </>
+    </div>
   );
 }

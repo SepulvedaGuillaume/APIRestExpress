@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../styles/AdCard.module.sass";
+import styles from "@/styles/AdCard.module.sass";
 
 export interface AdCardProps {
   title: string;

@@ -1,4 +1,4 @@
-import styles from "../styles/Category.module.sass";
+import styles from "@/styles/Category.module.sass";
 
 export interface CategoryProps {
   title: string;

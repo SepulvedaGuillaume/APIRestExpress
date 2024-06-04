@@ -1,5 +1,5 @@
-import styles from "../styles/AdDetails.module.sass";
-import { AdDetailProps } from "../pages/ads/[slug]";
+import styles from "@/styles/AdDetails.module.sass";
+import { AdDetailProps } from "@/pages/ads/[slug]";
 
 export default function AdDetails ({ title, imgUrl, price}: AdDetailProps) {
   return (
