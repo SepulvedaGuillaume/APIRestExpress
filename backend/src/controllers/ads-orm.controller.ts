@@ -8,6 +8,27 @@ const getAllAdsWithOrm = async (req: Request, res: Response): Promise<any> => {
     const ads = await Ad.find();
     return res.status(200).send(ads);
   } catch (error) {
+    console.log(error);
+    return res.status(500).send("An error occurred");
+  }
+};
+
+const getAdWithOrm = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const ad = await Ad.findOne({ where: { id: parseInt(id) } });
+
+    if (!ad) {
+      return res.status(404).send("Ad not found");
+    }
+
+    return res.status(200).send(ad);
+  } catch (error) {
     return res.status(500).send("An error occurred");
   }
 };
@@ -253,7 +274,7 @@ const getAdsByTags = async (req: Request, res: Response): Promise<any> => {
       where: {
         tags: {
           name: In(tagsSplit),
-        }
+        },
       },
     });
 
@@ -265,6 +286,7 @@ const getAdsByTags = async (req: Request, res: Response): Promise<any> => {
 
 export {
   getAllAdsWithOrm,
+  getAdWithOrm,
   getAllAdsWithOrmFromBordeaux,
   deleteAdWithOrmIfPriceMoreThan40,
   updateAddWithOrmIfFirstOfSeptember,

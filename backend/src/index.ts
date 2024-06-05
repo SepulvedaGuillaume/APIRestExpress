@@ -5,11 +5,13 @@ import fs from "fs";
 import path from "path";
 import "reflect-metadata";
 import dataSource from "./sql/dataSource";
+import cors from "cors";
 
 const port = process.env.PORT || 3001;
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 const queries = fs.readFileSync(
@@ -40,7 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", router);
+app.use("/api", router);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

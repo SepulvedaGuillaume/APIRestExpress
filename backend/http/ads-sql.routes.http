@@ -1,24 +1,24 @@
-GET http://localhost:3000/ads-sql
+GET http://localhost:3001/api/ads-sql
 
 ###
 
-GET http://localhost:3000/ads-sql/Bordeaux
+GET http://localhost:3001/api/ads-sql/Bordeaux
 
 ###
 
-DELETE http://localhost:3000/ads-sql/40
+DELETE http://localhost:3001/api/ads-sql/40
 
 ###
 
-PUT http://localhost:3000/ads-sql/september
+PUT http://localhost:3001/api/ads-sql/september
 
 ###
 
-GET http://localhost:3000/ads-sql/avg-paris
+GET http://localhost:3001/api/ads-sql/avg-paris
 
 ###
 
-POST http://localhost:3000/ads-sql
+POST http://localhost:3001/api/ads-sql
 Content-Type: application/json
 
 {
@@ -33,8 +33,8 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/ads-sql/avg-location
+GET http://localhost:3001/api/ads-sql/avg-location
 
 ###
 
-DELETE http://localhost:3000/ads-sql/10
+DELETE http://localhost:3001/api/ads-sql/10

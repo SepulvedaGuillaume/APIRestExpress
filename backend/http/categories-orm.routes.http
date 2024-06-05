@@ -1,21 +1,29 @@
 
-GET http://localhost:3000/categories-orm/vetement
+GET http://localhost:3001/api/categories-orm
 
 ###
 
-GET http://localhost:3000/categories-orm/multiple/autre,voiture
+GET http://localhost:3001/api/categories-orm/1
 
 ###
 
-GET http://localhost:3000/categories-orm/avg/autre
+GET http://localhost:3001/api/categories-orm/ads/1
 
 ###
 
-GET http://localhost:3000/categories-orm/search/v
+GET http://localhost:3001/api/categories-orm/multiple/autre,voiture
 
 ###
 
-POST http://localhost:3000/categories-orm
+GET http://localhost:3001/api/categories-orm/avg/autre
+
+###
+
+GET http://localhost:3001/api/categories-orm/search/v
+
+###
+
+POST http://localhost:3001/api/categories-orm
 Content-Type: application/json
 
 {

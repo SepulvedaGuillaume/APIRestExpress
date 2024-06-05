@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAllAdsWithOrm,
+  getAdWithOrm,
   getAllAdsWithOrmFromBordeaux,
   deleteAdWithOrmIfPriceMoreThan40,
   updateAddWithOrmIfFirstOfSeptember,
@@ -15,6 +16,7 @@ import {
 const router = express.Router();
 
 router.get("/", getAllAdsWithOrm);
+router.get("/:id", getAdWithOrm);
 router.get("/bordeaux", getAllAdsWithOrmFromBordeaux);
 router.delete("/40", deleteAdWithOrmIfPriceMoreThan40);
 router.put("/september", updateAddWithOrmIfFirstOfSeptember);

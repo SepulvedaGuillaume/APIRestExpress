@@ -1,48 +1,45 @@
 import Link from "next/link";
 import styles from "@/styles/AdCard.module.sass";
 import Button from "./Button";
-import { useState, useEffect } from "react";
-import { log } from "console";
+import { useState } from "react";
+import { useBasket } from "@/contexts/basketContext";
 
 export interface AdCardProps {
+  id: number;
   title: string;
-  imgUrl: string;
+  description?: string;
+  owner: string;
   price: number;
-  link: string;
-  onToggleCardPrice: (price: number, isAdded: boolean) => void;
+  picture?: string;
+  location: string;
+  createdAt: string;
 }
 
-export default function AdCard({
-  title,
-  imgUrl,
-  price,
-  link,
-  onToggleCardPrice,
-}: AdCardProps) {
-  const [isAdded, setIsAdded] = useState<boolean>(false);
+export default function AdCard({ id, title, price, picture }: AdCardProps) {
+  const { basket, toggleItemBasket } = useBasket();
 
-  useEffect(() => {
-    const firstRenderONly = () => {
-      console.log("First render only");
-    };
-    firstRenderONly();
-  }, []);
+  const isAdded = basket.some((item) => item.id === id);
 
   const handleToggleBasket = () => {
-    onToggleCardPrice(price, isAdded);
-    setIsAdded(!isAdded);
+    toggleItemBasket({ id, price });
   };
 
   return (
     <div className={styles["ad-card-container"]}>
       <Link
         href={{
-          pathname: link,
-          query: { title, imgUrl, price },
+          pathname: `/ad/${id}`,
         }}
         className={styles["ad-card-link"]}
       >
-        <img className={styles["ad-card-image"]} src={imgUrl} />
+        {picture ? (
+          <img className={styles["ad-card-image"]} src={picture} />
+        ) : (
+          <img
+            className={styles["ad-card-image"]}
+            src="https://via.placeholder.com/200"
+          />
+        )}
         <div className={styles["ad-card-text"]}>
           <div className={styles["ad-card-title"]}>{title}</div>
           <div className={styles["ad-card-price"]}>{price} €</div>

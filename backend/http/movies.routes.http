@@ -1,25 +1,25 @@
-GET http://localhost:3000/movies/count
+GET http://localhost:3001/api/movies/count
 
 ####
 
-GET http://localhost:3000/movies/totalBudget
+GET http://localhost:3001/api/movies/totalBudget
 
 ###
 
-GET http://localhost:3000/movies?minYear=1970
+GET http://localhost:3001/api/movies?minYear=1970
 
 ###
 
-GET http://localhost:3000/movies?requestedTime=14
+GET http://localhost:3001/api/movies?requestedTime=14
 
 ###
 
-GET http://localhost:3000/movies?minYear=2020&requestedTime=16
+GET http://localhost:3001/api/movies?minYear=2020&requestedTime=16
 
 
 ###
 
-POST http://localhost:3000/movies
+POST http://localhost:3001/api/movies
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/movies
+PUT http://localhost:3001/api/movies
 Content-Type: application/json
 
 {
@@ -44,7 +44,7 @@ Content-Type: application/json
 
 ### 
 
-DELETE http://localhost:3000/movies
+DELETE http://localhost:3001/api/movies
 Content-Type: application/json
 
 {

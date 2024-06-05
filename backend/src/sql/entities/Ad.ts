@@ -25,7 +25,13 @@ class Ad extends BaseEntity {
   })
   title: string;
 
-  @Column("text")
+  @Column({
+    length: 255,
+    nullable: true,
+  })
+  @Length(1, 255, {
+    message: "Entre 1 et 255 caractères",
+  })
   description: string;
 
   @Column({
@@ -40,10 +46,7 @@ class Ad extends BaseEntity {
   price: number;
 
   @Column({
-    length: 100,
-  })
-  @Length(1, 100, {
-    message: "Entre 1 et 100 caractères",
+    nullable: true,
   })
   picture: string;
 

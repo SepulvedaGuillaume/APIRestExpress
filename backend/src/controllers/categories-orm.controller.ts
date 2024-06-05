@@ -4,18 +4,44 @@ import Category from "../sql/entities/Category";
 import { In } from "typeorm";
 import dataSource from "../sql/dataSource";
 
+const getCategoriesOrm = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const categories = await Category.find();
+
+    return res.status(200).send(categories);
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+}
+
+const getCategoryOrm = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    const category = await Category.findOne({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    return res.status(200).send(category);
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+}
+
 const getAdsByCategoryOrm = async (
   req: Request,
   res: Response
 ): Promise<any> => {
   try {
-    const { category } = req.params;
+    const { id } = req.params;
 
     const ads = await Ad.find({
       relations: ["category"],
       where: {
         category: {
-          name: category,
+          id: parseInt(id),
         },
       },
     });
@@ -153,6 +179,8 @@ const postAdWithCategoryOrm = async (
 };
 
 export {
+  getCategoriesOrm,
+  getCategoryOrm,
   getAdsByCategoryOrm,
   getAdsByCategoriesOrm,
   getAveragePriceByCategoryOrm,

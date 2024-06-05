@@ -1,61 +1,21 @@
+import { useEffect, useState } from "react";
 import Category, { CategoryProps } from "./Category";
 import styles from "@/styles/Header.module.sass";
+import categoryService from "@/services/api/categoryService";
+import { useBasket } from "@/contexts/basketContext";
 
 export default function Header() {
-  const categories: CategoryProps[] = [
-    {
-      title: "Ameublement",
-      link: "",
-    },
-    {
-      title: "Électroménager",
-      link: "",
-    },
-    {
-      title: "Photographie",
-      link: "",
-    },
-    {
-      title: "Informatique",
-      link: "",
-    },
-    {
-      title: "Téléphonie",
-      link: "",
-    },
-    {
-      title: "Vélos",
-      link: "",
-    },
-    {
-      title: "Véhicules",
-      link: "",
-    },
-    {
-      title: "Sport",
-      link: "",
-    },
-    {
-      title: "Habillement",
-      link: "",
-    },
-    {
-      title: "Bébé",
-      link: "",
-    },
-    {
-      title: "Outillage",
-      link: "",
-    },
-    {
-      title: "Services",
-      link: "",
-    },
-    {
-      title: "Vacances",
-      link: "",
-    },
-  ];
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  const { totalBasketPrice } = useBasket();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await categoryService.getCategories();
+      setCategories(categories);
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <header className={styles.header}>
@@ -91,6 +51,10 @@ export default function Header() {
             </svg>
           </button>
         </form>
+        <p className={styles["basket-total"]}>
+        Prix total :{" "}
+        <span className={styles["basket-total-price"]}>{totalBasketPrice} €</span>
+      </p>
         <a
           href="/post-ad"
           className={`${styles.button} ${styles["link-button"]}`}
@@ -102,8 +66,8 @@ export default function Header() {
         </a>
       </div>
       <nav className={styles["categories-navigation"]}>
-        {categories.map((category, index) => (
-          <Category key={index} {...category} />
+        {categories.map((category) => (
+          <Category key={category.id} {...category} />
         ))}
       </nav>
     </header>

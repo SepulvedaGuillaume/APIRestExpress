@@ -1,21 +1,20 @@
-
-GET http://localhost:3000/categories/autre
-
-###
-
-GET http://localhost:3000/categories/multiple/autre,vetement,voiture
+GET http://localhost:3001/api/categories/autre
 
 ###
 
-GET http://localhost:3000/categories/avg/vetement
+GET http://localhost:3001/api/categories/multiple/autre,vetement,voiture
 
 ###
 
-GET http://localhost:3000/categories/search/ve
+GET http://localhost:3001/api/categories/avg/vetement
 
 ###
 
-POST http://localhost:3000/categories
+GET http://localhost:3001/api/categories/search/ve
+
+###
+
+POST http://localhost:3001/api/categories
 Content-Type: application/json
 
 {
