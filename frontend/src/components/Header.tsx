@@ -11,7 +11,8 @@ export default function Header() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await categoryService.getCategories();
-      setCategories(categories);
+      const sortCategories = categories.sort((a: CategoryProps, b: CategoryProps) => a.name.localeCompare(b.name));
+      setCategories(sortCategories);
     };
 
     fetchCategories();

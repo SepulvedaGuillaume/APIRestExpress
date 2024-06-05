@@ -23,7 +23,8 @@ export default function RecentAds() {
     const fetchAds = async () => {
       try {
         const ads = await adService.getAds();
-        setAds(ads as Ad[]);
+        const sortedAds = ads ? ads.sort((a, b) => a.title > b.title ? 1 : -1) as Ad[] : [];
+        setAds(sortedAds);
       } catch (error) {
         console.error("Failed to fetch ads:", error);
       } finally {
