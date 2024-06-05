@@ -7,6 +7,7 @@ export interface CategoryProps {
 }
 
 export default function Category({id, name}: CategoryProps) {
+  const nameToCapitalize = name.charAt(0).toUpperCase() + name.slice(1);
   return (
     <>
       <Link
@@ -15,7 +16,7 @@ export default function Category({id, name}: CategoryProps) {
         }}
         className={styles["category-navigation-link"]}
       >
-        {name}
+        {nameToCapitalize}
       </Link>
       •
     </>
