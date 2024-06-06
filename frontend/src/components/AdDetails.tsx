@@ -1,7 +1,21 @@
 import styles from "@/styles/AdDetails.module.sass";
-import { Ad } from "@/components/RecentAds";
 import Button from "./Button";
 import { useBasket } from "@/contexts/basketContext";
+import adService from "@/services/api/adService";
+
+interface AdDetailsProps {
+  id: number;
+  title: string;
+  description: string;
+  owner: string;
+  location: string;
+  price: number;
+  picture: string;
+  createdAt: string;
+  category: { name: string };
+  tags: { name: string }[];
+  updateAds: () => void;
+}
 
 export default function AdDetails({
   id,
@@ -14,7 +28,8 @@ export default function AdDetails({
   createdAt,
   category,
   tags,
-}: Ad) {
+  updateAds,
+}: AdDetailsProps) {
   const createdAtTransform = new Date(createdAt).toLocaleDateString("fr-FR");
 
   const { basket, toggleItemBasket } = useBasket();
@@ -25,8 +40,18 @@ export default function AdDetails({
     toggleItemBasket({ id, price });
   };
 
+  const handleDeleteAd = async () => {
+    try {
+      await adService.deleteAd(id);
+      updateAds();
+    } catch (error) {
+      console.error("Failed to delete ad:", error);
+    }
+  };
+
   return (
     <div className={styles["ad-details-container"]}>
+      <span className={styles["ad-details-delete-button"]} onClick={handleDeleteAd}>X</span>
       <h1 className={styles["ad-details-title"]}>{title}</h1>
       {description && (
         <div className={styles["ad-details-description"]}>{description}</div>

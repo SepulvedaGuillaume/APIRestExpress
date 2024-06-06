@@ -316,6 +316,28 @@ const getAdsByTags = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+const deleteAdWithOrm = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const ad = await Ad.findOne({ where: { id: parseInt(id) } });
+
+    if (!ad) {
+      return res.status(404).send("Ad not found");
+    }
+
+    await ad.remove();
+
+    return res.status(200).send("Ad deleted");
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+}
+
 export {
   getAllAdsWithOrm,
   getAdWithOrm,
@@ -328,4 +350,5 @@ export {
   deleteAdWithOrmWithPriceInParameter,
   updateAd,
   getAdsByTags,
+  deleteAdWithOrm,
 };

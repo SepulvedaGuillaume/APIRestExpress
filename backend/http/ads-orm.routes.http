@@ -42,7 +42,7 @@ GET http://localhost:3001/api/ads-orm/avg-location
 
 ###
 
-DELETE http://localhost:3001/api/ads-orm/10
+DELETE http://localhost:3001/api/ads-orm/price/1
 
 ###
 
@@ -63,3 +63,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3001/api/ads-orm/tags/neuf
+
+###
+
+DELETE http://localhost:3001/api/ads-orm/1

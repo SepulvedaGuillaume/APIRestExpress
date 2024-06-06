@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useBasket } from "@/contexts/basketContext";
 import { CategoryProps } from "./Category";
 import { TagProps } from "@/services/api/tagService";
+import adService from "@/services/api/adService";
 
 export interface AdCardProps {
   id: number;
@@ -16,9 +17,16 @@ export interface AdCardProps {
   createdAt: string;
   category: CategoryProps;
   tags?: TagProps[];
+  updateAds: () => void;
 }
 
-export default function AdCard({ id, title, price, picture }: AdCardProps) {
+export default function AdCard({
+  id,
+  title,
+  price,
+  picture,
+  updateAds,
+}: AdCardProps) {
   const { basket, toggleItemBasket } = useBasket();
 
   const isAdded = basket.some((item) => item.id === id);
@@ -27,8 +35,23 @@ export default function AdCard({ id, title, price, picture }: AdCardProps) {
     toggleItemBasket({ id, price });
   };
 
+  const handleDeleteAd = async () => {
+    try {
+      await adService.deleteAd(id);
+      updateAds();
+    } catch (error) {
+      console.error("Failed to delete ad:", error);
+    }
+  };
+
   return (
     <div className={styles["ad-card-container"]}>
+      <span
+        className={styles["ad-details-delete-button"]}
+        onClick={handleDeleteAd}
+      >
+        X
+      </span>
       <Link
         href={{
           pathname: `/ad/${id}`,

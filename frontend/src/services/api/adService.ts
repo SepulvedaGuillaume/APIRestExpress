@@ -36,6 +36,15 @@ const adService = {
       console.error("Failed to post ad:", error);
     }
   },
+
+  deleteAd: async (id: number) => {
+    try {
+      const response = await axios.delete(`${BASE_URL}/ads-orm/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to delete ad:", error);
+    }
+  }
 };
 
 export default adService;

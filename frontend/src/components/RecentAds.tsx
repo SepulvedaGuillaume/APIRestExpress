@@ -23,23 +23,29 @@ export default function RecentAds() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const ads = await adService.getAds();
-        const sortedAds = ads ? ads.sort((a, b) => a.title > b.title ? 1 : -1) as Ad[] : [];
-        setAds(sortedAds);
-      } catch (error) {
-        console.error("Failed to fetch ads:", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 100);
-      }
-    };
+  const fetchAds = async () => {
+    try {
+      const ads = await adService.getAds();
+      const sortedAds = ads
+        ? (ads.sort((a, b) => (a.title > b.title ? 1 : -1)) as Ad[])
+        : [];
+      setAds(sortedAds);
+    } catch (error) {
+      console.error("Failed to fetch ads:", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
+    }
+  };
 
+  useEffect(() => {
     fetchAds();
   }, []);
+
+  const handleUpdateAds = () => {
+    fetchAds();
+  };
 
   return (
     <>
@@ -50,10 +56,7 @@ export default function RecentAds() {
         <section className={styles["recent-ads"]}>
           {ads &&
             ads.map((ad, index) => (
-              <AdCard
-                key={index}
-                {...ad}
-              />
+              <AdCard updateAds={handleUpdateAds} key={index} {...ad} />
             ))}
         </section>
       )}
