@@ -2,7 +2,6 @@ import styles from "@/styles/AdDetails.module.sass";
 import { Ad } from "@/components/RecentAds";
 import Button from "./Button";
 import { useBasket } from "@/contexts/basketContext";
-import { useState } from "react";
 
 export default function AdDetails({
   id,
