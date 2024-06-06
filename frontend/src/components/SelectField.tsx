@@ -1,5 +1,5 @@
 import styles from "@/styles/NewAd.module.sass";
-import Select from "react-select";
+import CreatableSelect from 'react-select/creatable';
 
 interface SelectFieldProps {
   label: string;
@@ -25,7 +25,7 @@ export default function SelectField({
       <label className={styles["new-ad-form-label"]}>
         {label} {required && <span className={styles["new-ad-form-required"]}>*</span>}
       </label>
-      <Select
+      <CreatableSelect
         options={options}
         isMulti={isMulti}
         isClearable

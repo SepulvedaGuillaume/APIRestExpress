@@ -10,6 +10,7 @@ import { CategoryProps } from "@/components/Category";
 import InputField from "@/components/InputField";
 import TextAreaField from "@/components/TextAreaField";
 import SelectField from "@/components/SelectField";
+import { useCategory } from "@/contexts/categoryContext";
 
 export interface FormData {
   title: string;
@@ -44,6 +45,7 @@ export default function NewAd() {
   const [selectedCategory, setSelectedCategory] =
     useState<SingleValue<OptionType>>(null);
   const [selectedTags, setSelectedTags] = useState<MultiValue<OptionType>>([]);
+  const { updateCategories } = useCategory();
 
   useEffect(() => {
     const fetchCategoriesAndTags = async () => {
@@ -71,15 +73,27 @@ export default function NewAd() {
     fetchCategoriesAndTags();
   }, []);
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsLoading(true);
     try {
-      adService.postAd(data);
-      setSuccess(true);
-      setError("");
-      reset();
-      setSelectedCategory(null);
-      setSelectedTags([]);
+      const response = await adService.postAd(data);
+  
+      if (response) {
+        const { status } = response;
+  
+        if (status === 201) {
+          setSuccess(true);
+          setError("");
+          reset();
+          setSelectedCategory(null);
+          setSelectedTags([]);
+          updateCategories();
+        } else {
+          setError("Failed to post ad. Please try again.");
+        }
+      } else {
+        setError("Failed to post ad. Please try again.");
+      }
     } catch (error) {
       console.error("Failed to post ad:", error);
       setError((error as Error).message);
@@ -164,7 +178,7 @@ export default function NewAd() {
             setSelectedTags(selectedOptions);
           }}
           error={errors.tags}
-          />
+        />
 
         <button type="submit" className={styles["new-ad-form-button"]}>
           Publier

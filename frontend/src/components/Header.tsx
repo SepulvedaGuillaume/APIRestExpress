@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react";
 import Category, { CategoryProps } from "./Category";
 import styles from "@/styles/Header.module.sass";
-import categoryService from "@/services/api/categoryService";
 import { useBasket } from "@/contexts/basketContext";
+import { useCategory } from "@/contexts/categoryContext";
 
 export default function Header() {
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
   const { totalBasketPrice } = useBasket();
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categories = await categoryService.getCategories();
-      const sortCategories = categories?.sort((a: CategoryProps, b: CategoryProps) => a.name.localeCompare(b.name)) ?? [];
-      setCategories(sortCategories);
-    };
-
-    fetchCategories();
-  }, []);
+  const { categories } = useCategory();
 
   return (
     <header className={styles.header}>

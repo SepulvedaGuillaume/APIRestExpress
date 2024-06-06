@@ -2,6 +2,11 @@ import axios from "axios";
 import { AdCardProps } from "@/components/AdCard";
 import { FormData } from "@/pages/ad/new";
 
+interface PostAd {
+  data: AdCardProps;
+  status: number;
+}
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const adService = {
@@ -25,8 +30,8 @@ const adService = {
 
   postAd: async (ad: FormData) => {
     try {
-      const response = await axios.post<AdCardProps>(`${BASE_URL}/ads-orm`, ad);
-      return response.data;
+      const response = await axios.post<PostAd>(`${BASE_URL}/ads-orm`, ad);
+      return { data: response.data, status: response.status };
     } catch (error) {
       console.error("Failed to post ad:", error);
     }

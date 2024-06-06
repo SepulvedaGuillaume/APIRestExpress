@@ -150,8 +150,31 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
       return res.status(400).send("Missing category");
     }
 
-    // find the categoryId from the category name
-    const categoryId = await Category.findOne({ where: { name: category } });
+    // find the categoryId from the category name if the category does not exist, create it
+    let categoryId = await Category.findOne({ where: { name: category } });
+    if (!categoryId) {
+      const newCategory = new Category();
+      newCategory.name = category;
+      await newCategory.save();
+      // assign the new category id to the ad
+      categoryId = newCategory;
+    }
+
+    // find the tags from the tag names if the tags do not exist, create them
+    const adTags = [];
+    if (tags && tags.length > 0) {
+      for (const tagName of tags) {
+        const tag = await Tag.findOne({ where: { name: tagName } });
+        if (!tag) {
+          const newTag = new Tag();
+          newTag.name = tagName;
+          await newTag.save();
+          adTags.push(newTag);
+        } else {
+          adTags.push(tag);
+        }
+      }
+    }
 
     const ad = new Ad();
     ad.id = Math.floor(Math.random() * 1000);
@@ -163,29 +186,9 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
     ad.location = location;
     ad.createdAt = new Date();
     ad.category = categoryId;
-    ad.tags = [];
+    ad.tags = adTags;
 
     await ad.save();
-
-    if (tags && tags.length > 0) {
-      for (const tagName of tags) {
-        // Vérifiez si le tag existe déjà
-        let tag = await Tag.findOne({ where: { name: tagName } });
-
-        // Si le tag n'existe pas, créez-le
-        if (!tag) {
-          tag = new Tag();
-          tag.name = tagName;
-          await tag.save();
-        }
-
-        // Ajoutez le tag à l'annonce
-        ad.tags.push(tag);
-      }
-
-      // Enregistrez l'annonce mise à jour avec les tags
-      await ad.save();
-    }
 
     return res.status(201).send(ad);
   } catch (error) {
