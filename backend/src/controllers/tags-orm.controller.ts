@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Tag from "../sql/entities/Tag";
-import Ad from "../sql/entities/Ad";
 
 const getAllTags = async (req: Request, res: Response): Promise<any> => {
   try {

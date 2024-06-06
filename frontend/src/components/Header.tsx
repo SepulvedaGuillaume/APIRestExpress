@@ -11,7 +11,7 @@ export default function Header() {
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await categoryService.getCategories();
-      const sortCategories = categories.sort((a: CategoryProps, b: CategoryProps) => a.name.localeCompare(b.name));
+      const sortCategories = categories?.sort((a: CategoryProps, b: CategoryProps) => a.name.localeCompare(b.name)) ?? [];
       setCategories(sortCategories);
     };
 
@@ -57,7 +57,7 @@ export default function Header() {
         <span className={styles["basket-total-price"]}>{totalBasketPrice} €</span>
       </p>
         <a
-          href="/post-ad"
+          href="/ad/new"
           className={`${styles.button} ${styles["link-button"]}`}
         >
           <span className={`${styles["mobile-short-label"]}`}>Publier</span>

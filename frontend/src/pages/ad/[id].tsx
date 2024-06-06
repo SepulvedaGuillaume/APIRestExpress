@@ -37,8 +37,14 @@ export default function AdDetailsPage() {
 
   return (
     <div className={styles["ad-details-page-container"]}>
-      <GoBackButton />
-      {isLoading ? <Loader /> : ad && <AdDetails {...ad} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <GoBackButton />
+          {ad && <AdDetails {...ad} />}
+        </>
+      )}
     </div>
   );
 }

@@ -32,7 +32,7 @@ Content-Type: application/json
   "price": 100,
   "picture": "http://www.google.com",
   "location": "Location 1",
-  "categoryId": 1,
+  "category": "vetement",
   "tags": ["tag1", "tag2"]
 }
 

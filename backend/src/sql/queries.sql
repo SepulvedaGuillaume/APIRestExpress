@@ -31,8 +31,8 @@ CREATE TABLE tag (
 -- Insérer les 3 tags suivants : neuf, occasion, autre
 INSERT INTO tag (name) VALUES
 ('neuf'),
-('occasion'),
-('autre');
+('bon état'),
+('état correct');
 
 -- Supprimer la table si elle existe
 DROP TABLE IF EXISTS ad;

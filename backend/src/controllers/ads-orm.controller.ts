@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Ad from "../sql/entities/Ad";
 import { MoreThan, In } from "typeorm";
 import Tag from "../sql/entities/Tag";
+import Category from "../sql/entities/Category";
 
 const getAllAdsWithOrm = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -115,13 +116,34 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
       price,
       picture,
       location,
-      categoryId,
+      category,
       tags,
     } = req.body;
 
-    if (!title || !owner || !price || !location || !categoryId) {
-      return res.status(400).send("Missing required fields");
+    // Check and log each required field
+    if (!title) {
+      console.log("Missing title");
+      return res.status(400).send("Missing title");
     }
+    if (!owner) {
+      console.log("Missing owner");
+      return res.status(400).send("Missing owner");
+    }
+    if (price === undefined) { // explicitly check for undefined
+      console.log("Missing price");
+      return res.status(400).send("Missing price");
+    }
+    if (!location) {
+      console.log("Missing location");
+      return res.status(400).send("Missing location");
+    }
+    if (!category) {
+      console.log("Missing category");
+      return res.status(400).send("Missing category");
+    }
+
+    // find the categoryId from the category name
+    const categoryId = await Category.findOne({ where: { name: category } });
 
     const ad = new Ad();
     ad.id = Math.floor(Math.random() * 1000);
@@ -132,7 +154,7 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
     ad.picture = picture;
     ad.location = location;
     ad.createdAt = new Date();
-    ad.categoryId = categoryId;
+    ad.category = categoryId;
     ad.tags = [];
 
     await ad.save();
@@ -160,7 +182,6 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
     return res.status(201).send(ad);
   } catch (error) {
     console.log(error);
-
     return res.status(500).send("An error occurred");
   }
 };
