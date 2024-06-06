@@ -3,6 +3,8 @@ import AdCard from "./AdCard";
 import styles from "@/styles/RecentAds.module.sass";
 import adService from "@/services/api/adService";
 import Loader from "./Loader";
+import { CategoryProps } from "./Category";
+import { TagProps } from "@/services/api/tagService";
 
 export interface Ad {
   id: number;
@@ -13,6 +15,8 @@ export interface Ad {
   picture?: string;
   location: string;
   createdAt: string;
+  category: CategoryProps;
+  tags?: TagProps[];
 }
 
 export default function RecentAds() {

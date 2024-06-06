@@ -1,8 +1,9 @@
 import Link from "next/link";
 import styles from "@/styles/AdCard.module.sass";
 import Button from "./Button";
-import { useState } from "react";
 import { useBasket } from "@/contexts/basketContext";
+import { CategoryProps } from "./Category";
+import { TagProps } from "@/services/api/tagService";
 
 export interface AdCardProps {
   id: number;
@@ -13,6 +14,8 @@ export interface AdCardProps {
   picture?: string;
   location: string;
   createdAt: string;
+  category: CategoryProps;
+  tags?: TagProps[];
 }
 
 export default function AdCard({ id, title, price, picture }: AdCardProps) {

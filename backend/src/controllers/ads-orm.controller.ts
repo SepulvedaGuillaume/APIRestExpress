@@ -6,7 +6,11 @@ import Category from "../sql/entities/Category";
 
 const getAllAdsWithOrm = async (req: Request, res: Response): Promise<any> => {
   try {
-    const ads = await Ad.find();
+    // find the category name for each ad and the tags for each ad
+    const ads = await Ad.find({
+      relations: ["category", "tags"],
+    });
+
     return res.status(200).send(ads);
   } catch (error) {
     console.log(error);
@@ -22,7 +26,10 @@ const getAdWithOrm = async (req: Request, res: Response): Promise<any> => {
       return res.status(400).send("Missing required fields");
     }
 
-    const ad = await Ad.findOne({ where: { id: parseInt(id) } });
+    const ad = await Ad.findOne({
+      relations: ["category", "tags"],
+      where: { id: parseInt(id) },
+    });
 
     if (!ad) {
       return res.status(404).send("Ad not found");
@@ -129,7 +136,8 @@ const postNewAdWithOrm = async (req: Request, res: Response): Promise<any> => {
       console.log("Missing owner");
       return res.status(400).send("Missing owner");
     }
-    if (price === undefined) { // explicitly check for undefined
+    if (price === undefined) {
+      // explicitly check for undefined
       console.log("Missing price");
       return res.status(400).send("Missing price");
     }

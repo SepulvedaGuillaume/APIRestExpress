@@ -12,6 +12,8 @@ export default function AdDetails({
   price,
   picture,
   createdAt,
+  category,
+  tags,
 }: Ad) {
   const createdAtTransform = new Date(createdAt).toLocaleDateString("fr-FR");
 
@@ -21,7 +23,7 @@ export default function AdDetails({
 
   const handleToggleBasket = () => {
     toggleItemBasket({ id, price });
-  }
+  };
 
   return (
     <div className={styles["ad-details-container"]}>
@@ -29,6 +31,14 @@ export default function AdDetails({
       {description && (
         <div className={styles["ad-details-description"]}>{description}</div>
       )}
+      {tags && tags.length > 0 && (
+        <div className={styles["ad-details-tags"]}>
+          Mots clés: {tags.map((tag) => tag.name).join(", ")}
+        </div>
+      )}
+      <div className={styles["ad-details-category"]}>
+        Catégorie: {category.name}
+      </div>
       <div className={styles["ad-details-owner"]}>Vendeur: {owner}</div>
       <div className={styles["ad-details-location"]}>
         Localisation: {location}

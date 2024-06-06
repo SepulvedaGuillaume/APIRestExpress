@@ -23,8 +23,8 @@ export default function AdDetailsPage() {
         categoryService.getCategory(idInt),
         categoryService.getAdsByCategory(idInt)
       ]);
-      setCategory(categoryResult);
-      const sortedAds = adsResult.sort((a: Ad, b: Ad) => a.title > b.title ? 1 : -1);
+      setCategory(categoryResult as CategoryProps);
+      const sortedAds = adsResult?.sort((a: Ad, b: Ad) => a.title > b.title ? 1 : -1) ?? [];
       setAds(sortedAds);
     } catch (error) {
       console.error("Failed to fetch data:", error);
