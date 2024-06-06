@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Ad from "../sql/entities/Ad";
-import { MoreThan, In } from "typeorm";
+import { MoreThan, In, Like } from "typeorm";
 import Tag from "../sql/entities/Tag";
 import Category from "../sql/entities/Category";
 
@@ -338,6 +338,28 @@ const deleteAdWithOrm = async (req: Request, res: Response): Promise<any> => {
   }
 }
 
+const searchAdsByTitleOrCategory = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { search } = req.params;
+
+    if (!search) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const ads = await Ad.find({
+      where: [
+        { title: Like(`%${search}%`) },
+        { category: { name: Like(`%${search}%`) } }
+      ],
+      relations: ["category", "tags"],
+    });
+
+    return res.status(200).send(ads);
+  } catch (error) {
+    return res.status(500).send("An error occurred");
+  }
+}
+
 export {
   getAllAdsWithOrm,
   getAdWithOrm,
@@ -351,4 +373,5 @@ export {
   updateAd,
   getAdsByTags,
   deleteAdWithOrm,
+  searchAdsByTitleOrCategory
 };

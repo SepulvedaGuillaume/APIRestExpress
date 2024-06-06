@@ -11,7 +11,8 @@ import {
   deleteAdWithOrmWithPriceInParameter,
   updateAd,
   getAdsByTags,
-  deleteAdWithOrm
+  deleteAdWithOrm,
+  searchAdsByTitleOrCategory
 } from "../controllers/ads-orm.controller";
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.delete("/price/:price", deleteAdWithOrmWithPriceInParameter);
 router.put("/:id", updateAd);
 router.get("/tags/:tags", getAdsByTags);
 router.delete("/:id", deleteAdWithOrm);
+router.get("/search/:search", searchAdsByTitleOrCategory);
 
 export default router;

@@ -4,15 +4,18 @@ import dynamic from "next/dynamic";
 import Layout from "@/pages/layout";
 import { BasketProvider } from "@/contexts/basketContext";
 import { CategoryProvider } from "@/contexts/categoryContext";
+import { SearchProvider } from "@/contexts/searchContext";
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <BasketProvider>
-      <CategoryProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </CategoryProvider>
+      <SearchProvider>
+        <CategoryProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </CategoryProvider>
+      </SearchProvider>
     </BasketProvider>
   );
 }

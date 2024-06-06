@@ -67,3 +67,7 @@ GET http://localhost:3001/api/ads-orm/tags/neuf
 ###
 
 DELETE http://localhost:3001/api/ads-orm/1
+
+###
+
+GET http://localhost:3001/api/ads-orm/search/bmw

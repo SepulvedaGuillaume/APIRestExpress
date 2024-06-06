@@ -39,10 +39,19 @@ const adService = {
 
   deleteAd: async (id: number) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/ads-orm/${id}`);
+      const response = await axios.delete<AdCardProps[]>(`${BASE_URL}/ads-orm/${id}`);
       return response.data;
     } catch (error) {
       console.error("Failed to delete ad:", error);
+    }
+  },
+
+  searchByTitleOrCategory: async (search: string) => {
+    try {
+      const response = await axios.get<AdCardProps[]>(`${BASE_URL}/ads-orm/search/${search}`);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to search ad:", error);
     }
   }
 };
