@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdCard from "./AdCard";
 import styles from "@/styles/RecentAds.module.sass";
 import adService from "@/services/api/adService";
 import Loader from "./Loader";
 import { CategoryProps } from "./Category";
 import { TagProps } from "@/services/api/tagService";
-import { useSearch } from "@/contexts/searchContext";
 
 export interface Ad {
   id: number;
@@ -21,8 +20,32 @@ export interface Ad {
 }
 
 export default function RecentAds() {
-  const { searchResults, updateAds, isLoading } = useSearch();
+  const [ads, setAds] = useState<Ad[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const fetchAds = async () => {
+    try {
+      const ads = await adService.getAds();
+      const sortedAds = ads
+        ? (ads.sort((a, b) => (a.title > b.title ? 1 : -1)) as Ad[])
+        : [];
+      setAds(sortedAds);
+    } catch (error) {
+      console.error("Failed to fetch ads:", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
+    }
+  };
+
+  useEffect(() => {
+    fetchAds();
+  }, []);
+
+  const handleUpdateAds = () => {
+    fetchAds();
+  };
   return (
     <div>
       <h2>Annonces récentes</h2>
@@ -30,8 +53,8 @@ export default function RecentAds() {
         <Loader />
       ) : (
         <section className={styles["recent-ads"]}>
-          {searchResults && searchResults.length > 0 && !isLoading ? searchResults.map((ad) => (
-            <AdCard key={ad.id} updateAds={updateAds} {...ad} />
+          {ads && ads.length > 0 && !isLoading ? ads.map((ad) => (
+            <AdCard key={ad.id} updateAds={handleUpdateAds} {...ad} />
           )) : (
             <p>Aucune annonce trouvée</p>
           )}

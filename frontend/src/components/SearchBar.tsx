@@ -1,17 +1,23 @@
 // SearchBar.tsx
-import { ChangeEvent } from "react";
-import { useSearch } from "@/contexts/searchContext";
+import { ChangeEvent, useState } from "react";
 import styles from "@/styles/Header.module.sass";
+import { useRouter } from "next/router";
 
 export default function SearchBar() {
-  const { searchTerm, setSearchTerm } = useSearch();
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    router.push(`/ad?search=${searchTerm}`);
+  };
+
   return (
-    <form className={styles["text-field-with-button"]}>
+    <form className={styles["text-field-with-button"]} onSubmit={handleSubmit}>
       <input
         className={`${styles["text-field"]} ${styles["main-search-field"]}`}
         type="search"
@@ -19,7 +25,7 @@ export default function SearchBar() {
         placeholder="Rechercher des annonces ou catégories"
         value={searchTerm}
       />
-      <button className={`${styles.button} ${styles["button-primary"]}`}>
+      <button className={`${styles.button} ${styles["button-primary"]}`} type="submit">
         <svg
           aria-hidden="true"
           width={16}
