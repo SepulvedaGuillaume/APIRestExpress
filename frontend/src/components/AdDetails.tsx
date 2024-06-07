@@ -15,6 +15,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "@/components/InputField";
 import TextAreaField from "@/components/TextAreaField";
 import SelectField from "@/components/SelectField";
+import { useCategory } from "@/contexts/categoryContext";
 
 interface AdDetailsProps {
   id: number;
@@ -54,6 +55,7 @@ export default function AdDetails({
   } = useForm<FormData>();
 
   const { basket, toggleItemBasket } = useBasket();
+  const { updateCategories } = useCategory();
   const [isEditing, setIsEditing] = useState(false);
   const [categoriesAll, setCategoriesAll] = useState<OptionType[]>([]);
   const [tagsAll, setTagsAll] = useState<OptionType[]>([]);
@@ -108,6 +110,7 @@ export default function AdDetails({
       await adService.updateAd(id, data);
       setIsEditing(false);
       updateAds(false);
+      updateCategories();
     } catch (error) {
       console.error("Failed to update ad:", error);
     }
