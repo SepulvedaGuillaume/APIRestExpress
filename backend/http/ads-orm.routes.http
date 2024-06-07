@@ -46,7 +46,7 @@ DELETE http://localhost:3001/api/ads-orm/price/1
 
 ###
 
-PUT http://localhost:3001/api/ads-orm/324
+PUT http://localhost:3001/api/ads-orm/1
 Content-Type: application/json
 
 {
@@ -56,7 +56,7 @@ Content-Type: application/json
   "price": 200,
   "picture": "http://www.google.com",
   "location": "Location 1",
-  "categoryId": 1,
+  "category": "vetement",
   "tags": ["tag3", "tag4"]
 }
 

@@ -35,9 +35,9 @@ export default function AdDetailsPage() {
     fetchAd();
   }, [id]);
 
-  const handleUpdateAds = () => {
+  const handleUpdateAds = (bool: boolean) => {
     fetchAd();
-    router.push("/");
+    bool && router.push("/");
   };
 
   return (

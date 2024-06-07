@@ -23,7 +23,7 @@ export interface FormData {
   tags?: string[];
 }
 
-interface OptionType {
+export interface OptionType {
   value: string;
   label: string;
 }
@@ -31,6 +31,7 @@ interface OptionType {
 export default function NewAd() {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -162,6 +163,8 @@ export default function NewAd() {
             setValue("category", category);
             setSelectedCategory(selectedOption);
           }}
+          control={control}
+          name="category"
           error={errors.category}
         />
         <SelectField
@@ -177,6 +180,8 @@ export default function NewAd() {
             setValue("tags", tags);
             setSelectedTags(selectedOptions);
           }}
+          control={control}
+          name="tags"
           error={errors.tags}
         />
 

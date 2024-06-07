@@ -53,7 +53,16 @@ const adService = {
     } catch (error) {
       console.error("Failed to search ad:", error);
     }
-  }
+  },
+
+  updateAd: async (id: number, ad: FormData) => {
+    try {
+      const response = await axios.put<AdCardProps>(`${BASE_URL}/ads-orm/${id}`, ad);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to update ad:", error);
+    }
+  },
 };
 
 export default adService;

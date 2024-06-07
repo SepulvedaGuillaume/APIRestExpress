@@ -241,10 +241,10 @@ const deleteAdWithOrmWithPriceInParameter = async (
 const updateAd = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
-    const { title, description, price, picture, location, categoryId, tags } =
+    const { title, description, price, picture, location, category, tags } =
       req.body;
 
-    if (!title || !price || !location || !categoryId) {
+    if (!title || !price || !location || !category) {
       return res.status(400).send("Missing required fields");
     }
 
@@ -254,12 +254,22 @@ const updateAd = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).send("Ad not found");
     }
 
+    // find the categoryId from the category name if the category does not exist, create it
+    let categoryId = await Category.findOne({ where: { name: category } });
+    if (!categoryId) {
+      const newCategory = new Category();
+      newCategory.name = category;
+      await newCategory.save();
+      // assign the new category id to the ad
+      categoryId = newCategory;
+    }
+
     ad.title = title;
     ad.description = description;
     ad.price = price;
     ad.picture = picture;
     ad.location = location;
-    ad.categoryId = categoryId;
+    ad.category = categoryId;
 
     await ad.save();
 
@@ -336,9 +346,12 @@ const deleteAdWithOrm = async (req: Request, res: Response): Promise<any> => {
   } catch (error) {
     return res.status(500).send("An error occurred");
   }
-}
+};
 
-const searchAdsByTitleOrCategory = async (req: Request, res: Response): Promise<any> => {
+const searchAdsByTitleOrCategory = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { search } = req.params;
 
@@ -349,7 +362,7 @@ const searchAdsByTitleOrCategory = async (req: Request, res: Response): Promise<
     const ads = await Ad.find({
       where: [
         { title: Like(`%${search}%`) },
-        { category: { name: Like(`%${search}%`) } }
+        { category: { name: Like(`%${search}%`) } },
       ],
       relations: ["category", "tags"],
     });
@@ -358,7 +371,7 @@ const searchAdsByTitleOrCategory = async (req: Request, res: Response): Promise<
   } catch (error) {
     return res.status(500).send("An error occurred");
   }
-}
+};
 
 export {
   getAllAdsWithOrm,
@@ -373,5 +386,5 @@ export {
   updateAd,
   getAdsByTags,
   deleteAdWithOrm,
-  searchAdsByTitleOrCategory
+  searchAdsByTitleOrCategory,
 };
